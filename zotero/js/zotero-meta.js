@@ -1,0 +1,1 @@
+var zoteroMeta = {"version": "<none>", "project_name": "<none>"};

@@ -1,0 +1,119 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Zotero</title>
+
+    <!-- Required Stylesheets -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <link href="bootstrap-3-retro.css" rel="stylesheet">
+    <link href="bootstrap-treeview.css" rel="stylesheet">
+    <link href="zotsite.css" rel="stylesheet">
+    <link href="zotero.css" rel="stylesheet">
+
+    <!-- Required Javascript -->
+    <script src="jquery.js"></script>
+    <script src="popper.js"></script>
+    <script src="bootstrap.js"></script>
+    <script src="bootstrap-treeview.js"></script>
+    <script src="clipboard.js"></script>
+    <script src="zotero-tree-data.js"></script>
+    <script src="zotero-meta.js"></script>
+    <script src="zotero.js"></script>
+
+    <script>
+window.onload = function() {
+    var url = new URL(window.location.href);
+    var treeLevels = url.searchParams.get('levels') || 1;
+    var nodeId = url.searchParams.get('id');
+    var zot = new ZoteroManager(treeLevels, zoteroMeta);
+    zot.init(nodeId);
+
+    $('#init-button').click(function() { zot.reset(); })
+}
+    </script>
+
+  <style type="text/css" id="tree-style"> .treeview .list-group-item{cursor:pointer}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}.node-tree{}.node-tree:not(.node-disabled):hover{background-color:#F5F5F5;} </style></head>
+  <body>
+
+    <!-- navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-z navbar-toggleable-md" style="height: 50px;">
+      <!-- brand -->
+      <a class="navbar-brand" href="https://www.zotero.org/">
+	<img src="zotero-logo.svg" class="d-block" xmlns="http://www.w3.org/2000/svg" focusable="false" width="120" height="34">
+      </a>
+      <!-- right side nav -->
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+	<ul class="navbar-nav ml-auto">
+	  <li class="nav-item" id="project-link-version">
+	    <a class="nav-item nav-link mr-md-2" href="https://github.com/plandes/zotsite/releases/tag/v%3Cnone%3E" id="bd-versions">v&lt;none&gt;</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="https://github.com/plandes/zotsite">
+	      <img src="github-logo.svg" class="d-block" xmlns="http://www.w3.org/2000/svg" focusable="false" height="26">
+	    </a>
+	  </li>
+	  <li class="nav-item">
+	    <div class="nav-item btn btn-bd-download btn-download-z btn-outline-primary mr-md-2 disabled" id="item-document-link-button" link-data-toggle="tooltip" link-data-placement="right" link-data-html="true" title="">
+	      <div class="glyphicon glyphicon-link" href="#" id="item-document-link"></div>
+	    </div>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-item btn btn-bd-download btn-download-z btn-outline-primary mr-md-2" href="https://github.com/plandes/zotsite/releases//">Download</a>
+	  </li>
+	  <li class="nav-item" id="init-button">
+	    <a class="nav-item btn btn-bd-download btn-download-z btn-outline-primary mr-md-2" href="#">Clear</a>
+	  </li>
+	</ul>
+      </div>
+    </nav>
+
+    <div class="alert alert-dismissible fade show" role="alert" id="alert-box" style="display: none;">
+    </div>
+
+    <!-- main pane -->
+    <table class="max-table">
+      <tbody><tr valign="top">
+	<!-- left tree nav -->
+	<td class="left-nav-col border">
+	    <div class="input-group container left-nav-comp">
+	      <input name="search_param" value="all" id="search_param" type="hidden">
+	      <input class="form-control" id="termSearch" autofocus="" placeholder="Search term..." type="text">
+	      <span class="input-group-btn">
+		<button class="btn btn-default" type="button" onclick="zoteroSearchMin();">
+		  <span class="glyphicon glyphicon-search"></span>
+		</button>
+	      </span>
+	    </div>
+	    <div class="scrollbar scrollbar-primary treelist">
+	      <div class="force-overflow">
+		<div class="container left-nav-comp treelist treeview" id="tree"><ul class="list-group"><li class="list-group-item node-tree" data-nodeid="0" style="color:undefined;background-color:undefined;"><span class="icon glyphicon"></span><span class="icon node-icon"></span>PhD Thesis</li><li class="list-group-item node-tree" data-nodeid="1" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon"></span>Theory paper</li><li class="list-group-item node-tree" data-nodeid="25" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon"></span>Phenomenology</li><li class="list-group-item node-tree" data-nodeid="35" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon"></span>Experiment Results</li><li class="list-group-item node-tree" data-nodeid="52" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon"></span>Machine Leaning'</li><li class="list-group-item node-tree" data-nodeid="62" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-minus"></span><span class="icon node-icon"></span>Hardware</li><li class="list-group-item node-tree" data-nodeid="63" style="color:undefined;background-color:undefined;"><span class="indent"></span><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon glyphicon glyphicon-file"></span>artdaq</li><li class="list-group-item node-tree" data-nodeid="65" style="color:undefined;background-color:undefined;"><span class="icon expand-icon glyphicon glyphicon-plus"></span><span class="icon node-icon"></span>MS Thesis</li></ul></div>
+	      </div>
+	    </div>
+	</td>
+
+	<!-- content right pane -->
+	<td id="zotero-main-content" class="center-cell"><div class="disabled-text">No Content</div></td>
+      </tr>
+    </tbody></table>
+  
+
+<div class="nsc-content-camera nsc-hide">
+    <div class="nsc-content-camera-buttons" flex="none" layout="row" layout-align="start start">
+        <button class="nsc-content-camera-button nsc-hide" type="button" id="nsc_video_camera_collapse">
+            <span class="nsc-icon nsc-icon-panel-collapse"></span>
+        </button>
+        <button class="nsc-content-camera-button" type="button" id="nsc_video_camera_expand">
+            <span class="nsc-icon nsc-icon-panel-expand"></span>
+        </button>
+        <button class="nsc-content-camera-button" type="button" id="nsc_video_camera_close">
+            <span class="nsc-icon nsc-icon-panel-close"></span>
+        </button>
+    </div>
+    <div class="nsc-content-camera-container">
+        <div class="nsc-content-camera-shadow"></div>
+    </div>
+</div>
+</body></html>
